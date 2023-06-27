@@ -1,0 +1,29 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ETHRegistrarController
+    network: mainnet
+    source:
+      address: "0x253553366da8546fc250f225fe3d25d0c782303b"
+      abi: ETHRegistrarController
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - NameRegistered
+        - NameRenewed
+        - OwnershipTransferred
+      abis:
+        - name: ETHRegistrarController
+          file: ./abis/ETHRegistrarController.json
+      eventHandlers:
+        - event: NameRegistered(string,indexed bytes32,indexed address,uint256,uint256,uint256)
+          handler: handleNameRegistered
+        - event: NameRenewed(string,indexed bytes32,uint256,uint256)
+          handler: handleNameRenewed
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+      file: ./src/eth-registrar-controller.ts
